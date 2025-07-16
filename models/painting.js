@@ -1,36 +1,14 @@
 const mongoose = require("mongoose");
 
 const paintingSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  artist: {
-    type: String,
-    required: true,
-  },
-  genre: {
-    type: String,
-    required: true,
-  },
-  medium: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  // Fix this: image should be full object with url and filename
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  artist: { type: String, required: true },
+  genre: { type: String, required: true },
+  medium: { type: String, required: true },
+  price: { type: Number, required: true },
   image: {
-    url: {
-      type: String,
-      required: true,
-    },
+    url: { type: String, required: true },
     filename: String,
   },
   owner: {

@@ -11,7 +11,6 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.showPainting = async (req, res) => {
   const { id } = req.params;
-
   const painting = await Painting.findById(id)
     .populate({ path: "reviews", populate: { path: "author" } })
     .populate("owner");
@@ -21,25 +20,25 @@ module.exports.showPainting = async (req, res) => {
     return res.redirect("/paintings");
   }
 
-  // ✅ Fetch related paintings by genre or medium (excluding current)
   const relatedPaintings = await Painting.find({
     _id: { $ne: painting._id },
-    $or: [
-      { genre: painting.genre },
-      { medium: painting.medium }
-    ]
+    $or: [{ genre: painting.genre }, { medium: painting.medium }],
   }).limit(4);
 
   res.render("paintings/show", { painting, relatedPaintings });
 };
 
 module.exports.createPainting = async (req, res, next) => {
-  let url = req.file.path;
-  let filename = req.file.filename;
+  if (!req.file) {
+    req.flash("error", "Image upload failed!");
+    return res.redirect("/paintings/new");
+  }
 
+  const { path: url, filename } = req.file;
   const newPainting = new Painting(req.body.painting);
   newPainting.owner = req.user._id;
   newPainting.image = { url, filename };
+
   await newPainting.save();
   req.flash("success", "New Painting Created!");
   res.redirect("/paintings");

@@ -14,7 +14,7 @@ router
   .get(wrapAsync(paintingController.index))
   .post(
     isLoggedIn,
-    upload.single("painting[image]"),
+    upload.single("image"), // ✅ Fixed
     validatePainting,
     wrapAsync(paintingController.createPainting)
   );
