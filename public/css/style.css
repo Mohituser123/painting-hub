@@ -1,0 +1,387 @@
+/* ===== Global ===== */
+body {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  color: #2d3436;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.container {
+  flex: 1;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+  background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.navbar-brand,
+.nav-link {
+  color: white !important;
+  font-weight: 500;
+}
+.navbar-brand:hover,
+.nav-link:hover {
+  color: #ffeaa7 !important;
+}
+
+/* ===== Footer ===== */
+.f-info {
+  text-align: center;
+  padding: 2rem 0;
+  background-color: #f1f2f6;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.f-info-links a {
+  text-decoration: none;
+  color: #2d3436;
+  margin: 0 1rem;
+}
+.f-info-links a:hover {
+  text-decoration: underline;
+}
+.f-info-socials i {
+  font-size: 1.5rem;
+  margin: 0 0.5rem;
+  color: #636e72;
+}
+.f-info-brand {
+  font-weight: 500;
+}
+
+/* ===== Cards ===== */
+.listing-card {
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+.listing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+.card-img-top {
+  height: 20rem;
+  object-fit: cover;
+  border-radius: 1rem 1rem 0 0;
+  transition: transform 0.3s ease;
+}
+.listing-card:hover .card-img-top {
+  transform: scale(1.05);
+  cursor: zoom-in;
+}
+.card-title {
+  font-weight: 600;
+}
+.card-text {
+  color: #6c5ce7;
+  font-weight: 500;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  border-radius: 2rem;
+  padding: 8px 20px;
+  transition: all 0.2s ease;
+}
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== Show Page Image ===== */
+.show-img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+  display: block;
+  margin: 0 auto;
+}
+
+/* ===== Utility ===== */
+.text-center {
+  text-align: center;
+}
+
+/* ===== Hero Banner ===== */
+.hero-banner {
+  height: 70vh;
+  background: linear-gradient(to right, #6c5ce7, #a29bfe);
+  color: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  margin-top: 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.hero-content p {
+  font-size: 1.25rem;
+  opacity: 0.95;
+}
+.hero-content .btn {
+  padding: 10px 24px;
+  font-weight: 500;
+  border-radius: 30px;
+  transition: all 0.3s ease-in-out;
+}
+.hero-content .btn:hover {
+  transform: scale(1.05);
+}
+
+/* ===== DARK MODE (using body.dark) ===== */
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+body.dark .navbar {
+  background: linear-gradient(90deg, #2d3436, #636e72);
+}
+body.dark .navbar-brand,
+body.dark .nav-link {
+  color: #f1f1f1 !important;
+}
+body.dark .listing-card {
+  background-color: #1e1e1e;
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+body.dark .card-body,
+body.dark .card-title,
+body.dark .card-text {
+  color: #ffffff !important;
+}
+body.dark .f-info {
+  background-color: #1f1f1f;
+}
+body.dark .f-info-links a {
+  color: #e0e0e0;
+}
+body.dark .f-info-links a:hover {
+  color: #90caf9;
+}
+body.dark .btn {
+  border-color: #555;
+  color: #e0e0e0;
+}
+body.dark a {
+  color: #90caf9;
+}
+/* ✅ FIX: Review username visibility in dark mode */
+body.dark .card .card-title {
+  color: #ffffff !important;
+}
+
+body.dark .card .card-body {
+  background-color: #1e1e1e !important;
+  color: #ffffff !important;
+  border-radius: 12px;
+}
+
+/* 🔍 Painting Zoom Effect */
+.card-img-top {
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+  cursor: zoom-in;
+}
+
+/* 🔥 Trending Strip */
+.trending-section {
+  margin: 3rem 0 2rem;
+}
+.trending-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.trending-scroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem;
+}
+.trending-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.trending-scroll::-webkit-scrollbar-thumb {
+  background: #a29bfe;
+  border-radius: 4px;
+}
+.trending-card {
+  flex: 0 0 auto;
+  width: 16rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: white;
+  transition: transform 0.3s ease;
+}
+.trending-card:hover {
+  transform: scale(1.05);
+}
+.trending-img {
+  height: 10rem;
+  width: 100%;
+  object-fit: cover;
+}
+body.dark .trending-card {
+  background-color: #1e1e1e;
+  color: white;
+}
+body.dark .trending-title {
+  color: #fff;
+}
+
+/* ===== Trending Section ===== */
+.trending-section {
+  padding: 2rem 1rem;
+  background-color: #fafafa;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.trending-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem 0;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.trending-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+.trending-scroll::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 4px;
+}
+
+.trending-card {
+  min-width: 160px;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s;
+}
+.trending-card:hover {
+  transform: scale(1.05);
+}
+.trending-card img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+.trending-info {
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+}
+
+/* Dark Mode Support */
+body.dark .trending-section {
+  background-color: #1f1f1f;
+}
+body.dark .trending-card {
+  background-color: #2b2b2b;
+  color: white;
+}
+body.dark .trending-info p {
+  color: white;
+}
+/* Chat Assistant Styles */
+.chatbox {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  max-height: 400px;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.chat-header {
+  background: #343a40;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-body {
+  padding: 10px;
+  flex: 1;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ccc;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  outline: none;
+}
+
+.chat-input button {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 0 15px;
+}
+
+.chat-toggle-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.bot-message, .user-message {
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  max-width: 90%;
+}
+
+.bot-message {
+  background: #e9ecef;
+  align-self: flex-start;
+}
+
+.user-message {
+  background: #d1e7dd;
+  align-self: flex-end;
+}
+/* ✅ Fix review username not visible in dark mode */
+body.dark .card .card-title {
+  color: #fff !important;
+}

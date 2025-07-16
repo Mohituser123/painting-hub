@@ -1,0 +1,16 @@
+<!-- views/includes/chatbox.ejs -->
+<div id="chat-assistant" class="chatbox">
+  <div class="chat-header">
+    <span>🎨 PaintBot Assistant</span>
+    <button id="closeChat" class="btn-close">&times;</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="bot-message">Hi! I'm here to help you with any painting or artist details.</div>
+  </div>
+  <form id="chatForm" class="chat-input">
+    <input type="text" id="userInput" placeholder="Ask something about a painting..." autocomplete="off" />
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+<button id="openChat" class="chat-toggle-btn">💬</button>

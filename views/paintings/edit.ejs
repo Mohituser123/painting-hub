@@ -1,0 +1,75 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <h3>Edit Painting</h3>
+    <form
+      method="POST"
+      action="/paintings/<%= painting._id %>?_method=PUT"
+      class="needs-validation"
+      novalidate
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          name="painting[title]"
+          value="<%= painting.title %>"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter a valid title.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="artist" class="form-label">Artist</label>
+        <input
+          name="painting[artist]"
+          value="<%= painting.artist %>"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter the artist name.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="genre" class="form-label">Genre</label>
+        <input
+          name="painting[genre]"
+          value="<%= painting.genre %>"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter the genre.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="medium" class="form-label">Medium</label>
+        <input
+          name="painting[medium]"
+          value="<%= painting.medium %>"
+          type="text"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter the medium.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input
+          name="painting[price]"
+          value="<%= painting.price %>"
+          type="number"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">Please enter a valid price.</div>
+      </div>
+
+      <button class="btn btn-dark edit-btn mt-3">Update Painting</button>
+    </form>
+  </div>
+</div>

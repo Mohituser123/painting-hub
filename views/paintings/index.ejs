@@ -1,0 +1,122 @@
+<% layout("/layouts/boilerplate") %>
+
+<!-- Hero Banner -->
+<section class="hero-banner text-center text-white d-flex flex-column justify-content-center align-items-center">
+  <div class="hero-content">
+    <h1 class="display-4 fw-bold">Discover Unique Paintings</h1>
+    <p class="lead">Buy original artwork directly from emerging artists.</p>
+    <div class="mt-4">
+      <a href="/paintings" class="btn btn-light me-3">Explore Gallery</a>
+      <a href="/paintings/new" class="btn btn-outline-light">Add Your Painting</a>
+    </div>
+  </div>
+</section>
+
+<!-- Search + Filter -->
+<section class="search-filter my-5 text-center">
+  <h3 class="fw-bold mb-3">Explore Paintings</h3>
+  <div class="row justify-content-center g-3">
+    <div class="col-md-4 col-sm-6">
+      <input type="text" class="form-control" id="searchInput" placeholder="Search by title or artist..." />
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <select class="form-select" id="genreFilter">
+        <option value="">All Genres</option>
+        <option value="Landscape">Landscape</option>
+        <option value="Portrait">Portrait</option>
+        <option value="Abstract">Abstract</option>
+        <option value="Modern">Modern</option>
+      </select>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <select class="form-select" id="mediumFilter">
+        <option value="">All Mediums</option>
+        <option value="Oil">Oil</option>
+        <option value="Acrylic">Acrylic</option>
+        <option value="Watercolor">Watercolor</option>
+        <option value="Digital">Digital</option>
+      </select>
+    </div>
+    <div class="col-md-2 col-sm-6">
+      <select class="form-select" id="sortBy">
+        <option value="">Sort by</option>
+        <option value="asc">Price: Low → High</option>
+        <option value="desc">Price: High → Low</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- Paintings Grid -->
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4" id="paintingGrid">
+  <% for (let painting of allPaintings) { %>
+    <div class="col painting-item"
+         data-title="<%= painting.title.toLowerCase() %>"
+         data-artist="<%= painting.artist.toLowerCase() %>"
+         data-genre="<%= painting.genre %>"
+         data-medium="<%= painting.medium %>">
+      <div class="card listing-card h-100 shadow-sm">
+        <div class="preview-modal-trigger" data-bs-toggle="modal" data-bs-target="#previewModal<%= painting._id %>">
+          <img 
+            src="<%= painting.image.url %>" 
+            class="card-img-top" 
+            alt="painting image"
+          />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"><%= painting.title %></h5>
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="card-text mb-0">&#8377;<%= painting.price?.toLocaleString("en-IN") %></p>
+            <% if (currentUser) { %>
+              <button 
+                class="btn favorite-toggle <%= currentUser.favorites?.includes(painting._id) ? 'favorited' : '' %>" 
+                data-user="<%= currentUser._id %>" 
+                data-painting="<%= painting._id %>">
+                <i class="<%= currentUser.favorites?.includes(painting._id) ? 'fa-solid' : 'fa-regular' %> fa-heart"></i>
+              </button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal<%= painting._id %>" tabindex="-1" aria-labelledby="modalLabel<%= painting._id %>" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel<%= painting._id %>"><%= painting.title %></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+            <img src="<%= painting.image.url %>" class="img-fluid rounded mb-3" alt="painting preview" />
+            <p><strong>By:</strong> <%= painting.artist %></p>
+            <p><strong>Genre:</strong> <%= painting.genre %> | <strong>Medium:</strong> <%= painting.medium %></p>
+            <p><strong>Price:</strong> &#8377;<%= painting.price?.toLocaleString("en-IN") %></p>
+            <p><%= painting.description %></p>
+            <a href="/paintings/<%= painting._id %>" class="btn btn-dark">View Full Details</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <% } %>
+</div>
+
+<!-- 🔥 Trending Paintings Section -->
+<section class="trending-section mt-5">
+  <h3 class="fw-bold mb-3 text-center">🔥 Trending Paintings</h3>
+  <div class="trending-scroll">
+    <% allPaintings.slice(0, 8).forEach(painting => { %>
+      <div class="trending-card">
+        <a href="/paintings/<%= painting._id %>">
+          <img src="<%= painting.image.url %>" alt="<%= painting.title %>" />
+        </a>
+        <div class="trending-info">
+          <p class="mb-1 fw-semibold"><%= painting.title %></p>
+          <p class="text-muted small">by <%= painting.artist %></p>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>

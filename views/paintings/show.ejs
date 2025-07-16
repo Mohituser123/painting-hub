@@ -1,0 +1,160 @@
+<% layout("/layouts/boilerplate") %>
+<div class="row mt-3">
+  <div class="col-8 offset-3">
+    <h3><%= painting.title %></h3>
+  </div>
+  <div class="card col-6 offset-3 show-card listing-card">
+    <img src="<%= painting.image.url %>" class="card-img-top show-img" alt="painting_image">
+    <div class="card-body">
+      <p class="card-text">By <i><%= painting.artist %></i></p>
+      <p class="card-text"><%= painting.description %></p>
+      <p class="card-text">&#8377;<%= painting.price.toLocaleString("en-IN") %></p>
+      <p class="card-text">Genre: <%= painting.genre %></p>
+      <p class="card-text">Medium: <%= painting.medium %></p>
+    </div>
+  </div>
+
+  <% if (currentUser && painting.owner && String(painting.owner._id) === String(currentUser._id)) { %>
+    <div class="d-flex align-items-center gap-3 offset-3 my-3">
+      <a href="/paintings/<%= painting._id %>/edit" class="btn btn-dark">Edit</a>
+      <form method="POST" action="/paintings/<%= painting._id %>?_method=DELETE" class="m-0">
+        <button class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  <% } %>
+
+  <div class="col-8 offset-3 mb-3">
+    <hr>
+    <% if (currentUser) { %>
+      <h4>Leave a Review</h4>
+      <form action="/paintings/<%= painting._id %>/reviews" method="POST" novalidate class="needs-validation">
+        <div class="mb-3 mt-3">
+          <label for="rating" class="form-label">Rating</label>
+          <fieldset class="starability-slot">
+            <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked />
+            <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+        </div>
+        <div>
+          <label for="comment" class="form-label">Comments</label>
+          <textarea name="review[comment]" id="comment" cols="30" rows="5" class="form-control" required></textarea>
+          <div class="invalid-feedback">Please add some comments for review</div>
+        </div>
+        <br>
+        <button class="btn btn-outline-dark">Submit</button>
+      </form>
+      <hr>
+    <% } %>
+
+    <p><b>All Reviews</b></p>
+    <div class="row">
+      <% for (let review of painting.reviews) { %>
+        <div class="card col-5 ms-3 mb-3">
+          <div class="card-body">
+            <% if (review.author && review.author.username) { %>
+              <h5 class="card-title"><%= review.author.username %></h5>
+            <% } else { %>
+              <h5 class="card-title">Anonymous</h5>
+            <% } %>
+            <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
+            <p class="card-text"><%= review.comment %></p>
+          </div>
+          <form class="mb-3" method="POST" action="/paintings/<%= painting._id %>/reviews/<%= review._id %>?_method=DELETE">
+            <button class="btn btn-sm btn-dark">Delete</button>
+          </form>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<% if (relatedPaintings && relatedPaintings.length > 0) { %>
+  <div class="container my-5">
+    <h4 class="mb-4 text-center">🎨 You may also like</h4>
+    <div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4">
+      <% for (let rp of relatedPaintings) { %>
+        <% if (rp._id.toString() !== painting._id.toString()) { %>
+          <div class="col">
+            <div class="card h-100 shadow-sm">
+              <a href="/paintings/<%= rp._id %>" class="text-decoration-none">
+                <img src="<%= rp.image.url %>" class="card-img-top" alt="Related Painting">
+                <div class="card-body">
+                  <h6 class="card-title text-dark"><%= rp.title %></h6>
+                  <p class="card-text text-muted small mb-1">By <%= rp.artist %></p>
+                  <p class="card-text text-dark mb-0">&#8377;<%= rp.price.toLocaleString("en-IN") %></p>
+                </div>
+              </a>
+            </div>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+<% } %>
+
+<!-- 🤖 AI Assistant Chat Box -->
+<div class="container my-5">
+  <h4>🤖 Ask AI about this Painting</h4>
+  <form id="chatForm" class="d-flex mb-3" onsubmit="return false;">
+    <input
+      type="text"
+      id="userQuestion"
+      class="form-control me-2"
+      placeholder="Ask something about this painting..."
+      required
+    />
+    <button class="btn btn-dark" type="submit">Ask</button>
+  </form>
+  <div id="aiResponseBox" class="border rounded p-3" style="min-height: 100px;">
+    <em>Ask a question about this painting...</em>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById("chatForm");
+  const input = document.getElementById("userQuestion");
+  const responseBox = document.getElementById("aiResponseBox");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const question = input.value.trim();
+    if (!question) return;
+
+    responseBox.innerHTML = "<em>🧠 Thinking...</em>";
+    input.disabled = true;
+
+    try {
+      const res = await fetch("/ai/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question,
+          paintingId: "<%= painting._id %>"
+        })
+      });
+
+      const data = await res.json();
+      if (data.response) {
+        responseBox.innerHTML = `<strong>AI:</strong> ${data.response}`;
+      } else {
+        responseBox.innerHTML = "⚠️ No valid response from AI.";
+        console.log("Invalid AI response:", data);
+      }
+    } catch (err) {
+      console.error("💥 AI Error:", err);
+      responseBox.innerHTML = "⚠️ Something went wrong. Try again later.";
+    }
+
+    input.disabled = false;
+    input.value = "";
+  });
+</script>

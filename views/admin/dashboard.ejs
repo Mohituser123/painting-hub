@@ -1,0 +1,42 @@
+<% layout("/layouts/boilerplate") %>
+
+<section class="admin-dashboard my-5">
+  <h2 class="text-center mb-4 fw-bold">Admin Dashboard</h2>
+
+  <div class="row text-center g-4 mb-5">
+    <div class="col-md-4">
+      <div class="stat-box bg-light p-4 rounded shadow-sm">
+        <h5 class="text-muted">Total Paintings</h5>
+        <h2 class="text-primary"><%= totalPaintings %></h2>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-box bg-light p-4 rounded shadow-sm">
+        <h5 class="text-muted">Total Users</h5>
+        <h2 class="text-success"><%= totalUsers %></h2>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-box bg-light p-4 rounded shadow-sm">
+        <h5 class="text-muted">Total Reviews</h5>
+        <h2 class="text-danger"><%= totalReviews %></h2>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="fw-semibold mb-3">Latest Paintings</h4>
+  <div class="row row-cols-md-3 row-cols-sm-2 row-cols-1 g-4">
+    <% latestPaintings.forEach(p => { %>
+      <div class="col">
+        <div class="card h-100">
+          <img src="<%= p.image.url %>" class="card-img-top" style="height: 15rem; object-fit: cover" />
+          <div class="card-body">
+            <h5 class="card-title"><%= p.title %></h5>
+            <p class="card-text">Artist: <%= p.artist %></p>
+            <p class="card-text text-muted">Price: ₹<%= p.price.toLocaleString("en-IN") %></p>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
