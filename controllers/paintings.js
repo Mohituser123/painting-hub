@@ -61,7 +61,13 @@ module.exports.showPainting = async (req, res) => {
     return res.redirect("/paintings");
   }
 
-  res.render("paintings/show", { painting });
+   // ✅ Add this block to fetch related paintings
+    const relatedPaintings = await Painting.find({
+        _id: { $ne: painting._id }, // exclude current
+        category: painting.category // or use painting.title.split(" ")[0] for loose match
+    }).limit(4);
+
+    res.render("paintings/show", { painting, relatedPaintings }); // ✅ Make sure to pass it here
 };
 
 module.exports.renderEditForm = async (req, res) => {
