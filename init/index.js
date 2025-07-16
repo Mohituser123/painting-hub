@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Painting = require("../models/painting");
 const initData = require("./data");
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/paintstore";
+const MONGO_URL = process.env.DB_URL || "mongodb://127.0.0.1:27017/paintstore"; // ✅ use same as app.js
 
 main()
   .then(() => console.log("✅ Connected to MongoDB"))
