@@ -120,10 +120,10 @@ app.get("/", (req, res) => {
   res.redirect("/paintings");
 });
 
-// ✅ 404 route
+// ✅ 404 route (🛠️ FIXED 🛠️)
 app.all("*", (req, res, next) => {
   console.log("❌ Route not found:", req.originalUrl);
-  next(new ExpressError("Page Not Found", 404));
+  next(new ExpressError(404, "Page Not Found"));
 });
 
 // ✅ Error handler
@@ -131,7 +131,7 @@ app.use((err, req, res, next) => {
   console.log("🔥🔥🔥 ERROR CAUGHT 🔥🔥🔥");
   console.error(err.stack || err);
   const statusCode = err.statusCode || 500;
-  res.status(statusCode).send(`<pre>${err.stack}</pre>`);
+  res.status(statusCode).send(`<pre>${err.stack || err.message}</pre>`);
 });
 
 // ✅ Start server
